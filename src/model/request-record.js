@@ -47,7 +47,9 @@ class RequestRecord {
    * @returns {string}
    */
   get fullAddress() {
-    return `${this.get("Address")} ${this.get("City")}, ${
+    return `${this.get("Address")} ${
+      config.VOLUNTEER_DISPATCH_CITY
+    }, ${
       config.VOLUNTEER_DISPATCH_STATE
     }`;
   }

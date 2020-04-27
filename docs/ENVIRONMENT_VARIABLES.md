@@ -16,7 +16,8 @@
 | `SLACK_CHANNEL_ID`                      | Yes      |               |
 | `SLACK_XOXB`                            | Yes      |               |
 | `VOLUNTEER_DISPATCH_PREVENT_PROCESSING` | No       | `false`       |
-| `VOLUNTEER_DISPATCH_STATE`              | No       | NY            |
+| `VOLUNTEER_DISPATCH_CITY`              | No       | Washington            |
+| `VOLUNTEER_DISPATCH_STATE`              | No       | DC            |
 
 ## Storing environment variables
 
