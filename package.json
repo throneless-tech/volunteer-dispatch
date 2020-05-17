@@ -4,7 +4,7 @@
   "description": "Slackbot to coordinate errand volunteering",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "test:slack": "jest test/slack/*",
     "start": "nodemon src/index.js",
     "lint": "eslint src/**/*.js test/**/*.js",
@@ -14,7 +14,7 @@
     "type": "git",
     "url": "git+https://github.com/astoria-tech/slack-volunteer-seeker.git"
   },
-  "author": "Kyle Tomanelli",
+  "author": "Astoria Tech",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/astoria-tech/slack-volunteer-seeker/issues"
@@ -22,6 +22,8 @@
   "homepage": "https://github.com/astoria-tech/slack-volunteer-seeker#readme",
   "dependencies": {
     "airtable": "^0.8.1",
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "geolib": "^3.2.1",
@@ -29,6 +31,7 @@
     "node-geocoder": "^3.25.1",
     "preconditions": "^2.2.3",
     "random-js": "^2.1.0",
+    "qs": "^6.9.3",
     "slack": "^11.0.2",
     "winston": "^3.2.1",
     "winston-transport": "^4.3.0"
@@ -39,10 +42,12 @@
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-jsdoc": "^24.0.0",
     "eslint-plugin-prettier": "^3.1.2",
     "jest": "^25.2.7",
     "jest-when": "^2.7.1",
     "nodemon": "^2.0.2",
-    "prettier": "^2.0.2"
+    "prettier": "^2.0.2",
+    "rewire": "^5.0.0"
   }
 }

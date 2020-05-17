@@ -1,5 +1,12 @@
 require("dotenv").config();
 
+/**
+ * Environment boolean.
+ *
+ * @param {string} name The name of the environment variable.
+ * @param {boolean} defaultValue The default value if name is not available.
+ * @returns {boolean} True if name environment variable exists, or defaultValue.
+ */
 function envBoolean(name, defaultValue) {
   if (process.env[name]) {
     return process.env[name] === "true";
@@ -38,6 +45,7 @@ const config = {
 
   // Slack
   SLACK_TOKEN: process.env.SLACK_XOXB,
+  SLACK_SIGNING_SECRET: process.env.SLACK_SIGNING_SECRET,
   SLACK_CHANNEL_ID: process.env.SLACK_CHANNEL_ID,
   SLACK_ALERT_CHANNEL_ID: process.env.SLACK_ALERT_CHANNEL_ID,
 };
