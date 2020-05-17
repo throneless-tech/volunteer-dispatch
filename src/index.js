@@ -30,7 +30,8 @@ const requestService = new RequestService(
   customAirtable
 );
 const volunteerService = new VolunteerService(
-  base(config.AIRTABLE_VOLUNTEERS_TABLE_NAME)
+  base(config.AIRTABLE_VOLUNTEERS_TABLE_NAME),
+  customAirtable
 );
 
 /**
@@ -171,14 +172,15 @@ async function checkForNewSubmissions() {
       view: config.AIRTABLE_REQUESTS_VIEW_NAME,
       filterByFormula: `
         AND(
-          {Was split?} != 'yes', 
-          {Name} != '', 
-          OR(      
+          {Was split?} != 'yes',
+          {Name} != '',
+          OR(
             {Posted to Slack?} != 'yes',
             AND(
               {Posted to Slack?} = 'yes',
-              {Reminder Posted} != 'yes',      
+              {Reminder Posted} != 'yes',
               AND(
+
                 {Reminder Date/Time} != '',
                 {Reminder Date/Time} < ${Date.now()}
               )
