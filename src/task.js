@@ -61,39 +61,61 @@ const doesVolunteerHaveACar = (volunteer) => {
     "Do you have a private mode of transportation with valid license/insurance? "
   );
   if (transportationModes) {
-    return transportationModes.indexOf("Yes, I have a car") !== -1;
+    return transportationModes;
   }
   return false;
 };
 
 Task.GROCERY_SHOPPING = new Task("Grocery shopping", [
-  "Picking up groceries/medications",
+  "Running errands (picking up groceries",
 ]);
 Task.PRESCRIPTION_PICKUP = new Task("Picking up a prescription", [
-  "Picking up groceries/medications",
+  "Running errands (picking up groceries",
 ]);
 Task.MEDICAL_APPT_TRANSPORTATION = new Task(
   "Transportation to/from a medical appointment",
   [],
   [doesVolunteerHaveACar]
 );
-Task.DOG_WALKING = new Task("Dog walking", ["Pet-sitting/walking/feeding"]);
+Task.DOG_WALKING = new Task("Dog walking", ["Pet-sitting"]);
 Task.LONELINESS = new Task("Loneliness", [
-  "Check-in on folks throughout the day (in-person or phone call)",
-  "Checking in on people",
+  "Emotional support (talking on the phone with someone who is worried",
+  "Checking in on disabled/elderly relatives nearby"
 ]);
 Task.ACCESS_HEALTH_INFO = new Task("Accessing verified health information", [
-  "Check-in on folks throughout the day (in-person or phone call)",
-  "Checking in on people",
-  "Navigating the health care/insurance websites",
+  "Making doctors appointments",
+  "Calling about medication refills",
+  "Medical response (fielding calls with medical questions)",
+  "Signing people up for health insurance",
 ]);
 // Match most requirements since we don't know the nature of an "Other"
 Task.OTHER = new Task("Other", [
-  "Meal delivery",
-  "Picking up groceries/medications",
-  "Pet-sitting/walking/feeding",
-  "Checking in on people",
-  "Donations of other kind",
+  // grocery and prescription
+  "Running errands (picking up groceries",
+  // medical appt transportation
+  "Transportation to/from a medical appointment",
+  "Transportation",
+  // petcare
+  "Pet-sitting",
+  // lonliness
+  "Emotional support (talking on the phone with someone who is worried",
+  // health access
+  "Checking in on disabled/elderly relatives nearby",
+  "Making doctors appointments",
+  "Calling about medication refills",
+  "Medical response (fielding calls with medical questions)",
+  "Signing people up for health insurance",
+  // langauge access
+  'Translation (please list language in "other" box)',
+  "Translation (ASL)",
+  // other
+  "Meal preparation",
+  "Childcare",
+  "Childcare (experienced care for high/special needs children)",
+  "Household cleaning (dishwashing",
+  "Spare bed/comfortable couch",
+  "De-escalation, conflict resolution, peace-building skills",
+  'Religious/spiritual ministry (please list faith tradition in "other" box)'
 ]);
 Task.possibleTasks = [
   Task.GROCERY_SHOPPING,
