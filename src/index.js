@@ -175,14 +175,17 @@ async function checkForNewSubmissions() {
           {Was split?} != 'yes',
           {Name} != '',
           OR(
-            {Posted to Slack?} != 'yes',
+            {Status} = 'Ready to dispatch',
+            {Status} = 'Ready to dispatch (SPANISH)',
             AND(
-              {Posted to Slack?} = 'yes',
-              {Reminder Posted} != 'yes',
+              {Ready to Dispatch?} = 'yes',
               AND(
-
-                {Reminder Date/Time} != '',
-                {Reminder Date/Time} < ${Date.now()}
+                {Ready to Dispatch?} = 'yes',
+                {Reminder Posted} != 'yes',
+                AND(
+                  {Reminder Date/Time} != '',
+                  {Reminder Date/Time} < ${Date.now()}
+                )
               )
             )
           )
@@ -225,7 +228,7 @@ async function checkForNewSubmissions() {
         try {
           if (
             Date.now() > record.get("Reminder Date/Time") &&
-            record.get("Posted to Slack?") === "yes"
+            record.get("Ready to Dispatch?") === "yes"
           ) {
             await sendDispatch(
               requestWithCoords,
@@ -259,7 +262,7 @@ async function checkForNewSubmissions() {
           } else {
             await requestWithCoords.airtableRequest
               .patchUpdate({
-                "Posted to Slack?": "yes",
+                "Ready to Dispatch?": "yes",
                 Status: record.get("Status") || "Needs assigning", // don't overwrite the status
               })
               .then(logger.info("Updated Airtable record!"))
