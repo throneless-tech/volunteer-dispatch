@@ -46,6 +46,7 @@ function volunteerWithCustomFields(volunteerAndDistance) {
   return {
     Name: volunteer.get("Full Name"),
     Number: volunteer.get("Please provide your contact phone number:"),
+    Email: volunteer.get("Email Address"),
     Distance: distance,
     record: volunteer,
     Id: volunteer.id,

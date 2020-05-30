@@ -82,7 +82,7 @@ const getLanguage = (record) => {
   const languageList = languages.filter((language) => language).join(", ");
 
   const formattedLanguageList = `${
-    languageList.length ? languageList : "None provided"
+    languageList.length ? languageList : "English"
   }`;
 
   return formattedLanguageList;
@@ -101,20 +101,24 @@ const getRequester = (record) => {
   const requesterNumber = record.get("Phone number");
   const requesterAddress = record.get("Address");
 
+  const requestNumber = `:hash: ${record.get("Request #")}`;
   const displayNameLink = `<${recordURL}|:heart: ${
     requesterName || "No name provided"
   }>`;
   const displayNumber = `:phone: ${getDisplayNumber(requesterNumber)}`;
   const displayAddress = `:house: ${requesterAddress || "None provided"}`;
+  const neighborhood = `:house_buildings: ${record.get("Neighborhood")}`;
   const displayLanguage = `:speaking_head_in_silhouette: ${getLanguage(
     record
   )}`;
 
   const requesterInfo = [
     heading,
+    requestNumber,
     displayNameLink,
     displayNumber,
     displayAddress,
+    neighborhood,
     displayLanguage,
   ];
 
@@ -184,6 +188,38 @@ const getSubsidyRequest = (record) => {
   const subsidySection = getSection(`*Subsidy requested:* ${subsidy}`);
 
   return subsidySection;
+};
+
+/**
+ * Needs delivery
+ *
+ * @param {object} record The record to process for subsidies.
+ * @returns {object} The object with the subsidy request.
+ */
+const getDeliveryRequest = (record) => {
+  const delivery = record.get(
+    "Needs delivery?"
+  )
+    ? ":white_check_mark:"
+    : ":no_entry_sign:";
+
+  const deliverySection = getSection(`*Delivery requested:* ${delivery}`);
+
+  return deliverySection;
+};
+
+/**
+ * Household size
+ *
+ * @param {object} record The record to process for subsidies.
+ * @returns {object} The object with the subsidy request.
+ */
+const getHouseholdSize = (record) => {
+  const householdSize = record.get("Household size");
+
+  const householdSection = getSection(`*Household size:* ${householdSize}`);
+
+  return householdSection;
 };
 
 /**
@@ -330,6 +366,22 @@ const getCopyPasteNumbers = (volunteers) => {
   return simplePhoneList;
 };
 
+/**
+ * Format volunteer copy/paste email addresses.
+ *
+ * @param {Array} volunteers The volunteers to format the heading for.
+ * @returns {string} The formatted volunteer phone numbers.
+ */
+const getCopyPasteEmails = (volunteers) => {
+  if (!volunteers || !volunteers.length) return "No emails to display";
+
+  const simpleEmailList = volunteers
+    .map((volunteer) => volunteer.Email)
+    .join("\n");
+
+  return simpleEmailList;
+};
+
 module.exports = {
   getText,
   getHeading,
@@ -338,10 +390,12 @@ module.exports = {
   getTasks,
   // getTimeframe,
   getSubsidyRequest,
+  getDeliveryRequest,
+  getHouseholdSize,
   getAnythingElse,
   getVolunteerHeading,
   getVolunteers,
   getVolunteerClosing,
-  getCopyPasteNumbers,
+  getCopyPasteEmails,
   getSection,
 };

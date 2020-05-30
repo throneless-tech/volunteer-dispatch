@@ -44,6 +44,8 @@ const sendPrimaryRequestInfo = async (record, text, reminder) => {
  */
 const sendSecondaryRequestInfo = async (record, text, threadTs) => {
   const subsidyRequested = message.getSubsidyRequest(record);
+  const deliveryRequested = message.getDeliveryRequest(record);
+  const householdSize = message.getHouseholdSize(record);
   const anythingElse = message.getAnythingElse(record);
 
   return bot.chat.postMessage({
@@ -51,7 +53,7 @@ const sendSecondaryRequestInfo = async (record, text, threadTs) => {
     token,
     channel,
     text,
-    blocks: [subsidyRequested, anythingElse],
+    blocks: [subsidyRequested, deliveryRequested, householdSize, anythingElse],
   });
 };
 
@@ -85,14 +87,14 @@ const sendVolunteerInfo = async (volunteers, taskCounts, text, threadTs) => {
  * @param {string} threadTs The threaded message object returned from slack.
  * @returns {object} The slack chat message object sent.
  */
-const sendCopyPasteNumbers = async (volunteers, threadTs) => {
-  const copyPasteNumbers = message.getCopyPasteNumbers(volunteers);
+const sendCopyPasteEmails = async (volunteers, threadTs) => {
+  const copyPasteEmails = message.getCopyPasteEmails(volunteers);
 
   return bot.chat.postMessage({
     thread_ts: threadTs,
     token,
     channel,
-    text: copyPasteNumbers,
+    text: copyPasteEmails,
   });
 };
 
@@ -118,7 +120,7 @@ const sendDispatch = async (
   const { ts } = await sendPrimaryRequestInfo(record, text, reminder);
   await sendSecondaryRequestInfo(record, text, ts);
   await sendVolunteerInfo(volunteers, taskCounts, text, ts);
-  await sendCopyPasteNumbers(volunteers, ts);
+  await sendCopyPasteEmails(volunteers, ts);
 };
 
 module.exports = {
