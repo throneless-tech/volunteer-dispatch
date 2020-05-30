@@ -77,7 +77,7 @@ Task.MEDICAL_APPT_TRANSPORTATION = new Task(
   [],
   [doesVolunteerHaveACar]
 );
-Task.DOG_WALKING = new Task("Dog walking", ["Pet-sitting"]);
+Task.DOG_WALKING = new Task("Dog walking/petsitting", ["Pet-sitting"]);
 Task.LONELINESS = new Task("Loneliness", [
   "Emotional support (talking on the phone with someone who is worried",
   "Checking in on disabled/elderly relatives nearby"

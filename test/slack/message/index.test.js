@@ -328,7 +328,7 @@ describe("The second request info message", () => {
     test("Subsidy requests are represented by an emoji", () => {
       const requester = new MockRequestRecord();
       const property =
-        "Please note, we are a volunteer-run organization, but may be able to help offset some of the cost of hard goods. Do you need a subsidy for your assistance?";
+        "Subsidy?";
       requester.set(property, true);
 
       expect(message.getSubsidyRequest(requester).text.text).toBe(
@@ -339,7 +339,7 @@ describe("The second request info message", () => {
     test("Absence of subsidy request is represented by an emoji", () => {
       const requester = new MockRequestRecord();
       const property =
-        "Please note, we are a volunteer-run organization, but may be able to help offset some of the cost of hard goods. Do you need a subsidy for your assistance?";
+        "Subsidy?";
       requester.set(property, undefined);
 
       expect(message.getSubsidyRequest(requester).text.text).toBe(
@@ -368,25 +368,25 @@ describe("The second request info message", () => {
       );
     });
 
-    test("'Anything else' notes should return as decorated string", () => {
+    test("'Description' notes should return as decorated string", () => {
       const requester = new MockRequestRecord();
-      requester.set("Anything else", "Other errands");
+      requester.set("Description", "Other errands");
 
       expect(message.getAnythingElse(requester).text.text).toBe(
         `*Other notes from requester:* \nOther errands`
       );
     });
 
-    test("If no 'Anything else' notes are provided, a human readable string is returned", () => {
+    test("If no 'Description' notes are provided, a human readable string is returned", () => {
       const requester = new MockRequestRecord();
-      requester.set("Anything else", undefined);
+      requester.set("Description", undefined);
 
       expect(message.getAnythingElse(requester).text.text).toBe(
         "*Other notes from requester:* \nNone provided"
       );
     });
 
-    test("'Anything else' notes should be a section", () => {
+    test("'Description' notes should be a section", () => {
       const requester = new MockRequestRecord();
       const anythingElseSection = message.getAnythingElse(requester);
 

@@ -176,7 +176,7 @@ const getTasks = (record) => {
  */
 const getSubsidyRequest = (record) => {
   const subsidy = record.get(
-    "Please note, we are a volunteer-run organization, but may be able to help offset some of the cost of hard goods. Do you need a subsidy for your assistance?"
+    "Subsidy?"
   )
     ? ":white_check_mark:"
     : ":no_entry_sign:";
@@ -229,7 +229,7 @@ const truncateLongResponses = (response, recordId) => {
  * @returns {object} The requested record formatted for slack.
  */
 const getAnythingElse = (record) => {
-  const anythingElse = record.get("Anything else") || "";
+  const anythingElse = record.get("Description") || "";
   const truncatedResponse = truncateLongResponses(anythingElse, record.id);
 
   const anythingElseSection = getSection(
@@ -284,7 +284,7 @@ const getVolunteers = (volunteers, taskCounts) => {
       ? pluralize(taskCounts.get(volunteer.Id), "assigned task")
       : pluralize(0, "assigned task");
 
-    const volunteerLine = `:wave: ${volunteerLink}\n 
+    const volunteerLine = `:wave: ${volunteerLink}\n
     ${displayNumber} - ${volunteerDistance} - ${taskCount}`;
     const volunteerSection = getSection(volunteerLine);
 
@@ -336,7 +336,7 @@ module.exports = {
   getTaskOrder,
   getRequester,
   getTasks,
-  getTimeframe,
+  // getTimeframe,
   getSubsidyRequest,
   getAnythingElse,
   getVolunteerHeading,

@@ -64,6 +64,7 @@ class RequestService {
         _coordinates: JSON.stringify(errandCoords),
         _coordinates_address: request.fullAddress,
       });
+      console.log('record: ', updatedRecord);
     } catch (e) {
       // catch error so we can log it with logger and in airtable
       logger.error(
@@ -140,11 +141,11 @@ class RequestService {
       .select({
         view: config.AIRTABLE_REQUESTS_VIEW_NAME,
         filterByFormula:
-          "AND({Status} != 'Completed', {Assigned Volunteer} != '')",
+          "AND({Status} != 'Completed', {Connected Volunteer} != '')",
       })
       .eachPage(async (records, nextPage) => {
         records.forEach((record) => {
-          const volunteerReference = record.get("Assigned Volunteer")[0];
+          const volunteerReference = record.get("Connected Volunteer")[0];
           if (volunteerCounts.has(volunteerReference)) {
             const amount = volunteerCounts.get(volunteerReference);
             volunteerCounts.set(volunteerReference, amount + 1);

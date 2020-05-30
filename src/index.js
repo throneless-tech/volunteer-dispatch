@@ -175,8 +175,8 @@ async function checkForNewSubmissions() {
           {Name} != '',
           {Name} != '',
           OR(
-            {Status} = 'Ready to dispatch',
-            {Status} = 'Ready to dispatch (SPANISH)',
+            {Status} = 'Ready to dispatch (EN)',
+            {Status} = 'Ready to dispatch (SP)',
             AND(
               {Ready to Dispatch?} = 'yes',
               OR(
