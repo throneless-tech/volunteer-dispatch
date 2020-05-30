@@ -19,10 +19,10 @@ const sendPrimaryRequestInfo = async (record, text, reminder) => {
   const taskOrder = message.getTaskOrder(record);
   const requester = message.getRequester(record);
   const tasks = message.getTasks(record);
-  const requestedTimeframe = message.getTimeframe(record);
+  // const requestedTimeframe = message.getTimeframe(record);
   const blocks = taskOrder
-    ? [heading, taskOrder, requester, tasks, followUpButton]
-    : [heading, requester, tasks, requestedTimeframe, followUpButton]; // Removed requestedTimeframe, possible #FIXME
+    ? [heading, taskOrder, requester, tasks, followUpButton] // Removed requestedTimeframe, possible #FIXME
+    : [heading, requester, tasks, followUpButton]; // Removed requestedTimeframe, possible #FIXME
 
   const res = await bot.chat.postMessage({
     token,

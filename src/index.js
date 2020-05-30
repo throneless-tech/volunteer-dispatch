@@ -177,7 +177,7 @@ async function checkForNewSubmissions() {
           OR(
             {Status} = 'Ready to dispatch (EN)',
             {Status} = 'Ready to dispatch (SP)',
-            OR(
+            AND(
               {Posted to Slack?} != 'yes',
               AND(
                 {Posted to Slack?} = 'yes',
