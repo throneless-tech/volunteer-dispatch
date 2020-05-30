@@ -15,6 +15,7 @@ class MockRequestRecord {
       Address: "25-82 36th Street",
       Status: "Needs assigning",
       Tasks: ["Dog walking"],
+      "Task Order": "2 of 3",
     };
   }
 
@@ -151,6 +152,24 @@ describe("The primary message", () => {
     );
   });
 
+  describe("Task order", () => {
+    test("If task is split from a multi-task request, display task order", () => {
+      const requester = new MockRequestRecord();
+      const taskOrderSection = message.getTaskOrder(requester);
+
+      expect(taskOrderSection.text.text).toEqual(
+        expect.stringContaining(requester.get("Task Order"))
+      );
+    });
+
+    test("The task order info should be a section", () => {
+      const requester = new MockRequestRecord();
+      const taskOrderSection = message.getTaskOrder(requester);
+
+      expect(validateSection(taskOrderSection)).toBe(true);
+    });
+  });
+
   describe("Requester info", () => {
     test("If no requester name is specified, a human readable string is returned", () => {
       const requester = new MockRequestRecord();
@@ -229,7 +248,7 @@ describe("The primary message", () => {
       const bullet = ":small_orange_diamond:";
 
       expect(getFormattedTasks(requester)).toBe(
-        `\n ${bullet} ${taskList[0]}\n ${bullet} ${taskList[1]}`
+        `\n${bullet} ${taskList[0]}\n${bullet} ${taskList[1]}`
       );
     });
 
@@ -242,10 +261,10 @@ describe("The primary message", () => {
       const getFormattedTasks = message.__get__("formatTasks");
       const bullet = ":small_orange_diamond:";
       const warning =
-        '\t\t:warning: Because this is an "Other" request, these volunteer matches might not be the best options, depending on what the request is. :warning:';
+        ':warning: _"Other" request: volunteers might not be the best match_';
 
       expect(getFormattedTasks(requester)).toBe(
-        `\n ${bullet} Other\n${warning}\n ${bullet} Moving house`
+        `\n${warning}\n${bullet} Moving house`
       );
     });
 
@@ -257,17 +276,16 @@ describe("The primary message", () => {
       requester.set("Task - other", "Moving house");
 
       const getFormattedTasks = message.__get__("formatTasks");
-      const bullet = ":small_orange_diamond:";
+      const bullet = "\n:small_orange_diamond:";
       const warning =
-        '\n\t\t:warning: Because this is an "Other" request, these volunteer matches might not be the best options, depending on what the request is. :warning:';
+        '\n:warning: _"Other" request: volunteers might not be the best match_';
 
       const formattedTasks = getFormattedTasks(requester);
 
-      const bullet1 = `\n ${bullet} ${taskList[0]}`;
-      const bullet2 = `\n ${bullet} ${taskList[1]}`;
-      const bullet3 = `\n ${bullet} Moving house`;
+      const bullet1 = `${bullet} ${taskList[0]}`;
+      const bullet2 = `${bullet} Moving house`;
 
-      expect(formattedTasks).toBe(`${bullet1}${bullet2}${warning}${bullet3}`);
+      expect(formattedTasks).toBe(`${bullet1}${warning}${bullet2}`);
     });
 
     test("Tasks should be a section", () => {

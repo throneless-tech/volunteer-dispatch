@@ -172,19 +172,26 @@ async function checkForNewSubmissions() {
       view: config.AIRTABLE_REQUESTS_VIEW_NAME,
       filterByFormula: `
         AND(
-          {Was split?} != 'yes',
+          {Name} != '',
           {Name} != '',
           OR(
             {Status} = 'Ready to dispatch',
             {Status} = 'Ready to dispatch (SPANISH)',
             AND(
               {Ready to Dispatch?} = 'yes',
-              AND(
-                {Ready to Dispatch?} = 'yes',
-                {Reminder Posted} != 'yes',
+              OR(
+                {Posted to Slack?} != 'yes',
                 AND(
-                  {Reminder Date/Time} != '',
-                  {Reminder Date/Time} < ${Date.now()}
+                  {Posted to Slack?} = 'yes',
+                  {Reminder Posted} != 'yes',
+                  AND(
+                    {Ready to Dispatch?} = 'yes',
+                    {Reminder Posted} != 'yes',
+                    AND(
+                      {Reminder Date/Time} != '',
+                      {Reminder Date/Time} < ${Date.now()}
+                    )
+                  )
                 )
               )
             )

@@ -35,7 +35,7 @@ const getText = (options) => {
  * @param {object} options The configuration options.
  * @param {string} options.text The message to format.
  * @param {boolean} options.reminder Whether this message is a reminder or not.
- * @returns {string} The formatted heading.
+ * @returns {object} The formatted heading.
  */
 const getHeading = (options) => {
   if (options.reminder) {
@@ -43,6 +43,20 @@ const getHeading = (options) => {
   }
 
   return getSection(`:exclamation: *${options.text}* :exclamation:`);
+};
+
+/**
+ * Format task order for split tasks.
+ *
+ * @param {object} record The split task to get order from.
+ * @returns {object} The formatted task order to display after message header.
+ */
+const getTaskOrder = (record) => {
+  if (record.get("Task Order")) {
+    return getSection(
+      `:bellhop_bell: This is *Task ${record.get("Task Order")}* of the Request`
+    );
+  }
 };
 
 /**
@@ -122,23 +136,23 @@ const formatTasks = (record) => {
   if (!tasks && !otherTasks) return "None provided";
 
   // Put each task on a new line
-  let formattedTasks = "";
   if (tasks) {
-    formattedTasks = record.get("Tasks").reduce((taskList, task) => {
-      let msg = `${taskList}\n :small_orange_diamond: ${task}`;
-      if (task === "Other") {
-        msg +=
-          '\n\t\t:warning: Because this is an "Other" request, these volunteer matches might not be the best options, depending on what the request is. :warning:';
+    const formattedTasks = record.get("Tasks").reduce((taskList, task) => {
+      if (task !== "Other") {
+        const msg = `${taskList}\n:small_orange_diamond: ${task}`;
+
+        return msg;
       }
+
+      let msg = `${taskList}\n:warning: _"Other" request: `;
+      msg += "volunteers might not be the best match_";
+      msg += `\n:small_orange_diamond: ${otherTasks}`;
+
       return msg;
     }, "");
-  }
 
-  if (otherTasks) {
-    formattedTasks += `\n :small_orange_diamond: ${otherTasks}`;
+    return formattedTasks;
   }
-
-  return formattedTasks;
 };
 
 /**
@@ -319,6 +333,7 @@ const getCopyPasteNumbers = (volunteers) => {
 module.exports = {
   getText,
   getHeading,
+  getTaskOrder,
   getRequester,
   getTasks,
   getTimeframe,
