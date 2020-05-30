@@ -177,21 +177,14 @@ async function checkForNewSubmissions() {
           OR(
             {Status} = 'Ready to dispatch (EN)',
             {Status} = 'Ready to dispatch (SP)',
-            AND(
-              {Ready to Dispatch?} = 'yes',
-              OR(
-                {Posted to Slack?} != 'yes',
+            OR(
+              {Posted to Slack?} != 'yes',
+              AND(
+                {Posted to Slack?} = 'yes',
+                {Reminder Posted} != 'yes',
                 AND(
-                  {Posted to Slack?} = 'yes',
-                  {Reminder Posted} != 'yes',
-                  AND(
-                    {Ready to Dispatch?} = 'yes',
-                    {Reminder Posted} != 'yes',
-                    AND(
-                      {Reminder Date/Time} != '',
-                      {Reminder Date/Time} < ${Date.now()}
-                    )
-                  )
+                  {Reminder Date/Time} != '',
+                  {Reminder Date/Time} < ${Date.now()}
                 )
               )
             )
