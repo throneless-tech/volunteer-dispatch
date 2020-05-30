@@ -228,7 +228,7 @@ async function checkForNewSubmissions() {
         try {
           if (
             Date.now() > record.get("Reminder Date/Time") &&
-            record.get("Ready to Dispatch?") === "yes"
+            record.get("Posted to Slack?") === "yes"
           ) {
             await sendDispatch(
               requestWithCoords,
@@ -262,7 +262,7 @@ async function checkForNewSubmissions() {
           } else {
             await requestWithCoords.airtableRequest
               .patchUpdate({
-                "Ready to Dispatch?": "yes",
+                "Posted to Slack?": "yes",
                 Status: record.get("Status") || "Needs assigning", // don't overwrite the status
               })
               .then(logger.info("Updated Airtable record!"))
