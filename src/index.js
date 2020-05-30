@@ -173,21 +173,10 @@ async function checkForNewSubmissions() {
       filterByFormula: `
         AND(
           {Name} != '',
-          {Name} != '',
-          OR(
+          AND(
             {Status} = 'Ready to dispatch (EN)',
             {Status} = 'Ready to dispatch (SP)',
-            AND(
-              {Posted to Slack?} != 'yes',
-              AND(
-                {Posted to Slack?} = 'yes',
-                {Reminder Posted} != 'yes',
-                AND(
-                  {Reminder Date/Time} != '',
-                  {Reminder Date/Time} < ${Date.now()}
-                )
-              )
-            )
+            {Posted to Slack?} = 'yes'
           )
         )`,
     })
@@ -262,7 +251,7 @@ async function checkForNewSubmissions() {
           } else {
             await requestWithCoords.airtableRequest
               .patchUpdate({
-                "Posted to Slack?": "yes",
+                // "Posted to Slack?": "yes",
                 Status: record.get("Status") || "Needs assigning", // don't overwrite the status
               })
               .then(logger.info("Updated Airtable record!"))
